@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.Interfaces
 {
-    public interface ICommandLineUI
+    public interface IGenStateService: ICommand
     {
-        int ExecuteCommmand(string[] args);
     }
 }

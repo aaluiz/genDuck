@@ -1,0 +1,17 @@
+{
+  "unique_name": "string",
+  "nameid": "number",
+  "jti": "string",
+  "family_name": "string",
+  "role": "string",
+  "groupsid": "any",
+  "nbf": "number",
+  "exp": "number",
+  "iat": "number",
+  "iss": "string",
+  "aud": "string",
+  "grupos": "string",
+  "cargo": "string",
+  "centros_de_custo": "string",
+  "code": "string"
+}

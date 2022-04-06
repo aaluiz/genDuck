@@ -5,9 +5,9 @@ using Microsoft.Extensions.Hosting;
 using Services;
 using Spectre.Console;
 using System.Text;
+using genDuck.Extensions;
 
-
-namespace corecli
+namespace genDuck
 {
     class Program
     {
@@ -35,7 +35,7 @@ namespace corecli
                     config.AddJsonStream(GetJsonInMemory());
                 })
                 .ConfigureServices((_, services) =>
-                    services.AddServicesToDI()
+                    services.AddServices()
                 );
 
         static string Commands()

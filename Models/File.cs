@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Interfaces
+namespace Models
 {
-    public interface ICommandLineUI
-    {
-        int ExecuteCommmand(string[] args);
-    }
+    public record struct FileRecord( string Name, string Content);
 }

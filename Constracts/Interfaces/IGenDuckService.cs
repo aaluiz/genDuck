@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.Interfaces
 {
-    public interface ICommandLineUI
+    public interface IGenDuckService : ICommand
     {
-        public interface ICommandLineUI
-        {
-            int ExecuteCommmand(string[] args);
-        }
     }
 }

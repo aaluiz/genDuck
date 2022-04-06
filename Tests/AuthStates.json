@@ -1,0 +1,8 @@
+{
+  "token": "any",
+  "validToken": "boolean",
+  "profile?": "Profile | null",
+  "logged": "boolean",
+  "expires": "Date"
+}
+
