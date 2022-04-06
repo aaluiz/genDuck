@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+   <PropertyGroup>
+	 <Version>0.0.1-alpha</Version>
+  </PropertyGroup>
+	
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+	  <PackageId>genDuckNgRx</PackageId>
+	  <Autors>Alan Alves Luiz</Autors>
+	  <Company>Probity Tech</Company>
+	  <Description>Cli tool for gernetate NgRx Ducks Files.</Description>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageTags>NgRx Duck code generator</PackageTags>
+	  <RepositoryUrl>https://github.com/aaluiz/cadmo-clidot</RepositoryUrl>
+
+	  <PackAsTool>true</PackAsTool>
+	  <ToolCommandName>gdk</ToolCommandName>
+	  <PackageOutputPath>./nupkg</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LanguageExt.Core" Version="4.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+	 <PackageReference Include="Spectre.Console" Version="0.43.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Constracts\Contracts.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
+    <ProjectReference Include="..\Tools\Tools.csproj" />
+  </ItemGroup>
+
+</Project>
