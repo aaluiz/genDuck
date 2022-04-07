@@ -40,7 +40,7 @@ namespace genDuck
 
         static string Commands()
         {
-            return "[red]Command not found, try help. [/]\n";
+            return "Command not found";
         }
 
         static MemoryStream GetJsonInMemory()

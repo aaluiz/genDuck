@@ -52,9 +52,9 @@ public class Tests
     }
 
     [Test]
-    public void GenDuck_Return0_Success()
+    public void GenDuck_Return1_Success()
     {
-        string[] command = new string[] { "gen-duck" };
+        string[] command = new string[] { "gen-duck", "AuthState" };
         var result = _genDuckService!.Execute(command);
         Assert.IsTrue(result == 1);
     }
@@ -64,22 +64,22 @@ public class Tests
     {
         string[] command = new string[] { "gen-ducks" };
         var result = _genDuckService!.Execute(command);
-        Assert.IsTrue(result == 0);
+        Assert.IsTrue(result == -1);
     }
 
     [Test]
     public void GenState_Return0_Success()
     {
-        string[] command = new string[] { "gen-duck" };
-        var result = _genDuckService!.Execute(command);
+        string[] command = new string[] { "gen-states" };
+        var result = _genStateService!.Execute(command);
         Assert.IsTrue(result == 1);
     }
 
     [Test]
     public void GenState_Return0_Fail()
     {
-        string[] command = new string[] { "gen-ducks" };
-        var result = _genDuckService!.Execute(command);
-        Assert.IsTrue(result == 0);
+        string[] command = new string[] { "gen-state" };
+        var result = _genStateService!.Execute(command);
+        Assert.IsTrue(result == -1);
     }
 }

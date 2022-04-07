@@ -3,11 +3,13 @@ using Models;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using static System.Console;
 using static System.IO.Path;
 using static System.Reflection.Assembly;
 using static Tools.Business.GenDucks;
+using static Tools.Business.WriteDuck;
 
 namespace Tests
 {
@@ -15,18 +17,20 @@ namespace Tests
     public class TestingFunctions
     {
         [Test]
+        public void GenerateDuckFile_ReturnDuckFileSucess()
+        {
+            var result = GenerateDuckFile("AuthState").GetEitherObject().Result;
+
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
         public void GenerateStateFile_ReturnFileContent()
         {
             string currentPath = GetCurrentDirectory();
-            var resultFileState = GenerateStateFile(currentPath);
-            List<FileRecord> result = new();
+            var result = GenerateStateFile(currentPath).GetEitherObject().Result.ToList();
 
-            resultFileState.Match(
-                    Left: (ex) => WriteLine(ex.Message),
-                    Right: (x) => result.AddRange(x.ToList())
-                );
-
-            Assert.IsTrue(result[0].Name == "");
+            Assert.IsTrue(result.Count == 2);
         }
 
         [Test]
@@ -43,6 +47,103 @@ namespace Tests
 
             Assert.AreEqual(2, result.Count);
 
+        }
+
+        [Test]
+        public void GetPropertiesFromState_ReturnString()
+        {
+            string json = @"
+{
+  'token': 'any',
+  'validToken': 'boolean',
+  'profile?': 'Profile | null',
+  'logged': 'boolean',
+  'expires': 'Date'
+}
+";
+            var result = GetPropertiesFromState(json);
+
+            Assert.IsTrue(result.Contains(@"  token:any;"));
+        }
+
+        [Test]
+        public void WriteDuck_ReturnImports()
+        {
+            string imports = SetUpImports("AuthState");
+
+            Assert.AreEqual(@"import {
+  createAction,
+  props,
+  createReducer,
+  on,
+  createFeatureSelector
+} from '@ngrx/store';
+import { AuthState as State } from './AuthState.model';
+
+// actions", imports);
+        }
+
+        [Test]
+        public void CreateAction_ReturnActonCode()
+        {
+            string result = CreateAction("token", "any", "Auth");
+
+            Assert.AreEqual(@"export const setToken = createAction(
+  '[AUTH] SET_TOKEN',
+  props<{ token: any }>()
+);
+", result);
+        }
+
+        [Test]
+        public void CreateReducer_ReturnReducer()
+        {
+            var inputs = new List<string>() { "token", "validToken", "profile", "userData", "logged", "expires"}.ToImmutableList();
+
+            var result = CreateReducer( "Auth", inputs);
+
+            Assert.AreEqual(@"// reducer
+export const authReducer = createReducer(
+  initialState,
+  on(setToken, (state, { token }): State => ({ ...state, token })),
+  on(setValidToken, (state, { validToken }): State => ({ ...state, validToken })),
+  on(setProfile, (state, { profile }): State => ({ ...state, profile })),
+  on(setUserData, (state, { userData }): State => ({ ...state, userData })),
+  on(setLogged, (state, { logged }): State => ({ ...state, logged })),
+  on(setExpires, (state, { expires }): State => ({ ...state, expires }))
+);", result);    
+
+
+        }
+
+        [Test]
+        public void CreateInitalState_ReturnInitialState()
+        {
+
+            string result = CreateInitialState(@"  token: null,
+  validToken: false,
+  profile: null,
+  userData: '',
+  logged: false,
+  expires: new Date()");
+
+            Assert.AreEqual(@"// initial state
+export const initialState: State = {
+  token: null,
+  validToken: false,
+  profile: null,
+  userData: '',
+  logged: false,
+  expires: new Date()
+};", result);
+
+        }
+        [Test]
+        public void CreateSelector_ReturnSelector()
+        {
+            string selector = CreateSelectors("Auth");
+
+            Assert.AreEqual("export const selectAuth = createFeatureSelector<State>('auth');", selector);
         }
 
         private static string GetCurrentDirectory()

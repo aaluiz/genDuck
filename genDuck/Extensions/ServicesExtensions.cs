@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Contracts.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Services.Commands;
+using Services.StartUp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +14,9 @@ namespace genDuck.Extensions
     {
        public static void AddServices(this IServiceCollection services)
         {
-
+            services.AddTransient<ICommandLineUI, CommandLineUI>();
+            services.AddTransient<IGenDuckService, GenDuckService>();
+            services.AddTransient<IGenStateService, GenStateService>();
         } 
     }
 }
